@@ -16,6 +16,7 @@ Ziel: **konsistente Struktur, saubere Responsivität, klare Benennung, wiederhol
 - **Wenn Webflow über Connector/MCP verfügbar ist:** Umsetzung direkt im Webflow Designer (Elemente, Klassen, Styles, Assets).
 - **Wenn keine Tool-/Connector-Aktionen möglich sind:** exakte **Schritt-für-Schritt-Anleitung** für den Webflow Designer liefern (identische Struktur, identische Klassen, identische Style-Werte).
 - **Wenn ein Element durch den User zu löschen ist, bitte die klasse "delete+Zahl" verleihen und den User auffordern, delete-1, delete-2 etc zu löschen
+> **Code:**: Nie Code (Javascript oder andere) in irgendeiner Form in die Webflow-Seite einbinden, ohne den User zu warnen UND immer zu dokumentieren (inline)! 
 
 ---
 **Grundsatz: Webflow-Bordmittel vor Custom Code (Pflicht)**
