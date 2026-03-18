@@ -1,0 +1,715 @@
+# Webflow-Projektstandard (Claude Code) – Responsive Blueprint
+
+Diese Markdown-Datei definiert **verbindliche Projektregeln** für die Erstellung einer **voll responsiven** Webflow-Webseite mit **Claude Code** als KI-Umsetzer (Tooling/MCP optional).  
+Ziel: **konsistente Struktur, saubere Responsivität, klare Benennung, wiederholbare Qualitätssicherung**.
+
+
+## 1) Rollen- & Arbeitsmodus
+
+- Claude Code agiert als **Senior Webflow Designer/Developer** mit Fokus auf:
+  - saubere, responsive Layouts
+  - wartbare Klassenstruktur
+  - klare Typografie- und Spacing-Systeme
+  - robuste, barrierearme Defaults
+
+**Umsetzungsmodus**
+- **Wenn Webflow über Connector/MCP verfügbar ist:** Umsetzung direkt im Webflow Designer (Elemente, Klassen, Styles, Assets).
+- **Wenn keine Tool-/Connector-Aktionen möglich sind:** exakte **Schritt-für-Schritt-Anleitung** für den Webflow Designer liefern (identische Struktur, identische Klassen, identische Style-Werte).
+- **Wenn ein Element durch den User zu löschen ist, bitte die klasse "delete+Zahl" verleihen und den User auffordern, delete-1, delete-2 etc zu löschen
+
+---
+**Grundsatz: Webflow-Bordmittel vor Custom Code (Pflicht)**
+
+Alle Designs, Elemente und Seitenfunktionen werden **grundsätzlich mit nativen Webflow-Funktionen** umgesetzt (Styles, Interactions, CMS, Variables, Conditions, etc.). Custom Code (Embeds, Custom Attributes mit JS, externe Bibliotheken, Inline-Scripts) ist die **letzte Option**, nicht die erste.
+
+Begründung:
+- Vermeidung von Flickwerk aus verschiedenen Scripts und Bibliotheken
+- Wartbarkeit für Redakteure, die keine Webentwickler sind
+- Langfristige Pflegbarkeit des Projekts
+
+**Ablauf bei Code-Bedarf:**
+1. Claude prüft zunächst, ob die Anforderung **mit Webflow-Bordmitteln** lösbar ist (native Interactions, Conditional Visibility, CMS Filter, CSS via Style Panel, Webflow Variables, etc.).
+2. Ist die Anforderung **nur mit Custom Code** umsetzbar, muss Claude dies **vor der Umsetzung explizit kommunizieren** — inklusive:
+   - Warum Webflow-Bordmittel nicht ausreichen
+   - Welche Art von Code benötigt wird (CSS-Embed, JS-Snippet, externe Library)
+   - Wo der Code eingebettet würde (Page-Level, Site-Level, Element-Embed)
+   - Auswirkungen auf die Wartbarkeit
+3. Die Umsetzung mit Custom Code erfolgt **erst nach expliziter Freigabe** durch den User.
+
+> Faustregel: Wenn ein Redakteur ohne Coding-Kenntnisse das Element später nicht pflegen kann, ist die Lösung zu komplex.
+
+---
+
+## 2) Projektziel & Seitenumfang
+
+**Jede Seite, die erstellt wird, hat**:
+1) **Navbar** (genau eine, nie mehr oder weniger: Desktop-Navigation + Mobile-Menü/Burgerm, Component "Navbar") + **Hero** inkl. **computergeneriertem Headerbild** und **Standard-Headline** für ein Standard-Business
+2) **Hero-Section** (genau eine, nie mehr oder weniger: Mit H1 und Teaser )
+3) **Text-Bild-Elemente** (Als Basis für Inhaltserstellung)
+4) **Footer** (genau einer, nie mehr oder weniger: Kontakt, Produktlinks, Metanavigation)
+
+Hinweis: Weitere Content-Seiten können später ergänzt werden; sie sind **nicht** Bestandteil dieses Basistemplates.
+
+**Strukturelles Grundprinzip (über die gesamte Seite)**
+- **SECTION → BASIS-CONTAINER → INHALTSELEMENT(E)**  
+  (Keine Ausnahmen.)
+
+---
+
+## 3) Responsivitätsregeln (verbindlich)
+
+### 3.1 Keine starren Layout-Fallen
+- Nutze **flexible Breiten**: `%`, `fr`, `auto`, `clamp()`.
+- Vermeide **starre Höhen** (keine fixed heights für Hauptbereiche).
+- Bilder & Medien skalieren **fluid** (z. B. `max-width: 100%`, passende `object-fit`).
+
+### 3.2 Breiten-System (Container-Standard)
+- **Page Wrapper**: `width: 100%`
+- **Basis-Container** (zentriert):
+  - `max-width: 1920px`
+  - `margin-left/right: auto`
+  - Seiten-Padding:
+    - `padding-left/right: clamp(16px, 4vw, 48px)`
+
+### 3.3 Viewport-Grenzen (Pflicht)
+- **Max. Inhaltsbreite:** 1920px (zentriert)
+- **Min. Darstellungsbreite:** 360px  
+  → **Keine horizontalen Scrollbars**, kein Überlaufen, keine abgeschnittenen Texte/Buttons.
+
+---
+
+## 4) Breakpoints & Test-Matrix (Pflicht)
+
+### 4.1 Breakpoints
+- Stelle sicher, dass das Layout auf **Desktop, Tablet, Mobile Landscape, Mobile Portrait** sauber funktioniert.
+- Optional (wenn sinnvoll): **größere Breakpoints bis 1920px** aktivieren und stabilisieren.
+
+### 4.2 Test-Matrix (muss explizit geprüft werden)
+- 1920px
+- 1440px
+- 992px
+- 768px
+- 480px
+- **360px** (kritischer Mindesttest)
+
+**Bei 360px:**
+- Overflow prüfen
+- Typo/Zeilenlängen prüfen
+- Buttons/Links tap-friendly
+- Grid/Flex korrekt gestapelt
+
+---
+
+## 5) Computergeneriertes Headerbild (Pflicht)
+
+**Ziel:** abstraktes, computer-generiertes Hero-Visual in seriöser Tech-Ästhetik.
+
+**Regeln**
+- Bevorzugt als **SVG**, ggf. kombiniert mit CSS-Gradient/Overlay.
+- Keine externen Downloads (wenn möglich).
+- Einsatz als:
+  - Hero-Background oder
+  - Hero-Illustration (neben Text)
+- Muss responsiv skalieren und darf kein Overflow erzeugen.
+
+---
+
+## 6) Klassen- & Naming-Konvention (Pflicht)
+
+Verwende eine **klare, wiederholbare** Konvention (BEM-ähnlich oder eindeutig strukturiert), z. B.:
+
+- `section`, `section--hero`, `section--feature`, `section--footer`
+- `container-base`
+- `header`, `nav`, `hero`, `hero__content`, `hero__headline`, `hero__subline`
+- `feature`, `feature__grid`, `feature__text`, `feature__media`
+- `footer`, `footer__grid`
+
+> Hinweis: Webflow empfiehlt alphanumerisch + Bindestriche (a-z, 0-9, -); Klassen sind case-insensitive. Kanonische Namen sind **kebab-case**.
+
+**Regeln**
+- Keine „mystery classes" (z. B. `Div Block 23` als finaler Zustand).
+- Wiederverwendbare Utility-Patterns nur, wenn sauber dokumentiert.
+
+---
+
+## 7) Barrierearm & solide Defaults (Pflicht)
+
+- **Heading-Hierarchie**: genau **ein H1** pro Seite.
+- Sinnvolle Reihenfolge: H1 → H2 → H3, keine Sprünge ohne Grund.
+- **Alt-Texte** für alle bedeutungstragenden Bilder/Illustrationen.
+- **Kontrast**: Text muss gut lesbar sein (insb. auf Hero-Hintergrund).
+- Interaktionsziele (Buttons/Links) ausreichend groß für Mobile.
+
+---
+
+## 8) Inhaltliche Struktur (Standard-Template)
+
+### 8.1 Header & Navigation (Pflicht)
+
+**Anforderung**
+- Die Seite hat **Navbar** (Navigation) sowie den **Hero** direkt darunter.
+- **Desktop und größer:** volle Navbar sichtbar.
+- **Kleiner als Desktop:** Navbar-Links verschwinden hinter einem **Menu Button (Hamburger/Burger-Menü)**; beim Klick klappt das Menü auf.
+
+**Navigationselemente**
+- Brand/Logo links: „Claude IT" (Textlogo genügt)
+- Hauptnavigation (Dropdowns mit Unterpunkten):
+  - **Über uns**
+  - **Lösungen**
+  - **Plattform**
+  - **Referenzen**
+  - **Karriere**
+- CTAs rechts (als Buttons, nicht als normale Links):
+  - **Demo**
+  - **Kontakt**
+
+**Untermenüs (Pflicht)**
+- Jeder Hauptpunkt ist ein **Dropdown** mit ausklappbaren Unterpunkten.
+- Unterpunkte vorerst als **Platzhalter** anlegen (empfohlen: 3 Unterpunkte pro Menü) und später mit echten Seiten/Section-IDs verbinden.
+
+### 8.2 Hero (Pflicht)
+
+- Computergeneriertes SVG integrieren (Background/Illustration)
+- H1 + Subline
+- CTA-Button(s)
+- Responsiv: kein Overflow, fluid skalierend
+
+### 8.3 Feature-Blöcke (Pflicht)
+
+- 3 Sections, alternierendes Desktop-Layout (Text links/Bild rechts und umgekehrt)
+- Mobile: immer **stapeln** (z. B. Bild oben, Text darunter) – konsistent über alle Blöcke.
+
+### 8.4 Footer (Pflicht)
+
+**Footer-Inhalte (Pflicht)**
+- Bereich/Spalte 1: **Kontakt**
+  - Adresse (Dummy, aber realistisch formatiert)
+  - E-Mail-Adresse als `mailto:`-Link
+- Bereich/Spalte 2: **Produkte**
+  - Links zu den wichtigsten Produkten (Platzhalter; später mit echten Seiten verknüpfen)
+- Bereich/Spalte 3: **Metanavigation** (visuell „abgehoben")
+  - **Impressum**
+  - **AGB**
+  - **Datenschutzerklärung**
+  - Visuell abgehoben: z. B. eigener kleiner Container im Footer mit leichter Hintergrundtönung, Border oder Schatten.
+- Unterzeile:
+  - „© {CURRENT_YEAR} Claude IT. Alle Rechte vorbehalten."
+
+---
+
+## 9) Design-Vorgaben (einfach, business, seriös)
+
+- Typografie: moderne Sans (z. B. Inter oder `system-ui`)
+- Farben:
+  - neutraler Hintergrund (weiß/hell)
+  - dunkle Schrift
+  - **eine** Akzentfarbe (Tech-Blue oder Teal) reicht
+- Spacing:
+  - großzügig, konsistent
+  - bevorzugt relative Einheiten (`rem`, `clamp()`)
+- Bildstil:
+  - abstrakt-tech, ruhig
+  - **keine** Stockfotos
+
+---
+
+## 10) Build-Reihenfolge (Pflichtablauf)
+
+1) Seite anlegen/verwenden: „Home" (Startseite)
+2) **Design-Variablen anlegen (Pflicht)** im Webflow-Variablenfeld (Farben + Typo + Sizes/Weights; siehe Abschnitt 13)
+3) Globale Styles:
+   - Body, Typography, Links
+   - Buttons (Navbar-CTAs sind Pflicht → Button-Styles sind Pflicht)
+4) Seite bauen im Muster:
+   - `SECTION` (`section` + Modifier)  
+     → `BASIS-CONTAINER` (`container-base`)  
+     → Inhalt (Grid/Flex Wrapper etc.)
+5) Header & Navigation:
+   - Navbar mit Desktop-Navigation + Mobile Menu Button (Hamburger)
+   - Hauptpunkte als Dropdowns (mit Unterpunkten)
+   - „Demo" und „Kontakt" als CTA-Buttons
+6) Hero:
+   - computergeneriertes SVG integrieren (Background/Illustration)
+   - H1 + Subline
+7) Feature-Blöcke:
+   - 3 Sections, alternierendes Desktop-Layout
+   - Mobile sauber stapeln
+8) Footer:
+   - Kontakt (Adresse + E-Mail), Produkte-Links, Metanavigation (Impressum/AGB/Datenschutz) visuell abgehoben
+   - gestapelt auf Mobile
+9) Qualitätssicherung:
+   - Breakpoints nach Test-Matrix prüfen
+   - Overflow beheben (kein horizontales Scrollen)
+   - Typo/Line-length/Spacing finalisieren
+   - Bildskalierung prüfen
+   - Navigation testen (Desktop Dropdowns + Mobile Burger + CTAs)
+
+---
+
+## 11) Qualitätssicherung: harte Checks (Pflicht)
+
+- **Kein horizontaler Scroll** bei 360px
+- Keine abgeschnittenen Headlines/Buttons
+- Bilder/Illustrationen bleiben scharf und skalieren flüssig
+- Konsistente Abstände zwischen Sections und innerhalb der Blöcke
+- Lesbarkeit auf Hero (Text vs. Hintergrund)
+- H1 genau einmal, korrekte H2-Struktur
+- Alt-Texte gesetzt
+- Mobile: Feature-Blöcke gestapelt und logisch lesbar
+
+**Navigation (Pflichtchecks)**
+- Desktop: Navbar sichtbar, Logo korrekt, Dropdowns öffnen per Click, Unterpunkte erreichbar
+- Tablet/Mobile: Menü-Button sichtbar, Nav-Links standardmäßig verborgen, Burger-Menü klappt auf/zu
+- Mobile: Dropdowns im aufgeklappten Menü funktionieren, CTAs (Demo/Kontakt) sind sichtbar und gut tappbar
+- Keine Überlagerungen mit Hero (z. B. Dropdown verdeckt Inhalte nicht unbenutzbar)
+
+---
+
+## 12) Output / Übergabeformat (Pflicht)
+
+### 12.1 Wenn direkt im Webflow umgesetzt
+Nach Umsetzung liefern:
+- **Build-Log (kurz):**
+  - angelegte Struktur (Sections, Container, Wrappers)
+  - Klassenliste (wichtigste Klassen)
+  - Assets (Hero-SVG, Feature-SVGs)
+- **Breakpoints-Checkliste:** welche Breiten geprüft wurden (inkl. 360px)
+
+### 12.2 Wenn nur Anleitung möglich
+Liefern:
+- Nummerierte Klickanleitung für Webflow
+- Exakte Klassen-Namen
+- Konkrete Style-Werte/Regeln
+- Hinweis, an welchen Breakpoints welche Anpassung zu setzen ist
+
+---
+
+## 13) Design-Variablen (Pflicht – werden im Variablenfeld angelegt)
+
+Alle folgenden Variablen werden **einmal** im **Webflow-Variablenfeld** angelegt und anschließend **überall** verwendet (keine Hardcodes für Farben/Typo/Sizes in einzelnen Klassen).
+
+### 13.1 Variable-Namen & Typen (verbindlich)
+
+**Farben (Color)**
+- `color/primary` → Primärfarbe (Brand/CTA/Hover)
+- `color/secondary` → Sekundärfarbe (Flächen/Background/„Surface")
+- `color/contrast` → Kontrastfarbe (Standard-Textfarbe auf `color/secondary`)
+
+**Schriftarten (Font family)**
+- `font/heading` → Headline-Schriftart
+- `font/body` → Textschriftart
+
+**Typografie-Größen (Size)**
+- `type/h1/size`
+- `type/h2/size`
+- `type/h3/size`
+- `type/body/size` → Standard-Textgröße (Fließtext)
+
+**Typografie-Fonts je Headline (Font family)**
+- `type/h1/font` (Default: `font/heading`)
+- `type/h2/font` (Default: `font/heading`)
+- `type/h3/font` (Default: `font/heading`)
+
+**Typografie-Fontweights (Number)**
+- `type/h1/weight` (z. B. 700)
+- `type/h2/weight` (z. B. 600)
+- `type/h3/weight` (z. B. 600)
+
+### 13.2 Bindungsregeln (Muss)
+
+**Body (globale Defaults)**
+- Font Family: `font/body`
+- Font Size: `type/body/size`
+- Text Color: `color/contrast`
+- Background: `color/secondary`
+
+**Headlines (H1/H2/H3)**
+- Size: `type/h1/size` / `type/h2/size` / `type/h3/size`
+- Font: `type/h1/font` / `type/h2/font` / `type/h3/font` (oder direkt `font/heading`)
+- Weight: `type/h1/weight` / `type/h2/weight` / `type/h3/weight`
+- Color: standardmäßig `color/contrast` (bewusstes Invert nur, wenn wirklich nötig)
+
+**Navbar & Buttons**
+- Navbar-Linkfarbe: `color/contrast`
+- Navbar Hover/Active: `color/primary`
+- CTA-Buttons (Demo/Kontakt):
+  - Background: `color/primary`
+  - Text: `color/secondary`
+  - Border/Outline (falls verwendet): `color/primary`
+
+**Wichtig:** Wenn du an irgendeiner Stelle doch eine CSS-Eigenschaft brauchst, die Webflow nicht direkt „variablen-linkbar" macht, nutze den Variablenwert als `var(--…)` (Custom CSS values), aber **niemals** als neue Hardcode-Farbe/Hardcode-Font.
+
+### 13.3 Projekt-Platzhalter (optional, empfohlen)
+
+Zusätzlich (für Copy & Metadaten, nicht für Styles):
+- Markenname: `{BRAND_NAME}`
+- Claim/H1: `{H1}`
+- Footer Jahr: `{CURRENT_YEAR}`
+
+---
+
+## A. DAS ZENTRALE STRUKTURPRINZIP
+
+Jede Seite folgt ohne Ausnahme einer dreigliedrigen Hierarchie:
+
+```
+SEITE
+   SECTION          ← semantischer Seitenabschnitt
+      CONTAINER     ← zentrierter Inhaltsrahmen (max-width)
+         INHALT (Grid, Flex, Stacks ...)
+```
+
+**Warum diese Hierarchie?**
+- Die Section definiert den inhaltlichen Kontext eines Bereichs (Hero, Features, Kontakt ...).
+- Der Container stellt sicher, dass Inhalte nie aus dem Raster brechen – einzige Stelle für max-width und Auto-Margin.
+- Inhalts-Wrapper darunter können frei grid- oder flex-basiert sein, ohne die übergeordneten Ebenen zu beeinflussen.
+- Direkte Kinder einer Section sind immer und ausschließlich der Container – nie Inhaltselemente.
+- Kein „Div Block 23" als Finalzustand. Jedes Element bekommt einen sprechenden Namen.
+
+---
+
+## B. NAMING-SYSTEMATIK
+
+### B.1 Warum einheitliche Benennung?
+Webflow speichert Klassen global. Unkontrollierte Benennung führt innerhalb weniger Wochen zu hunderten ungenutzter Klassen. Die Systematik verhindert das strukturell.
+
+### B.2 Konvention
+
+| Prinzip | Bedeutung |
+|---|---|
+| Kleinbuchstaben + Bindestrich | Alle Namen: wort-wort-wort. Keine Großbuchstaben, keine Leerzeichen, keine Unterstriche. |
+| Modifier | Varianten durch einfachen Bindestrich: `block--variante` |
+| Zustandsklassen | Interaktive Zustände als kurze Hilfsklasse: `is-open`, `is-active` |
+
+- Webflow behandelt Klassennamen als case-insensitive. „Hero" und „hero" sind dieselbe Klasse – Kleinschreibung vermeidet Kollisionen.
+
+### B.3 Abstraktionsebenen (von unten nach oben)
+
+| Ebene | Was gehört hier rein? | Beispiele |
+|---|---|---|
+| 1 – Design Tokens | Alle Werte: Farben, Schriftgrößen, Abstände – ausschließlich als Webflow-Variablen | Primärfarbe, Heading-Größe, Karten-Radius |
+| 2 – Utilities | Einzweck-Hilfsklassen: Sichtbarkeit, Container-Breiten | Verstecken auf Mobile, max-width-Begrenzungen |
+| 3 – Components | Wiederverwendbare UI-Einheiten mit eigenem DOM-Vertrag | Navbar, Button, Karte, Formular, Footer |
+| 4 – Patterns | Kompositionen aus Components für typische Seitenabschnitte | Hero-Pattern, Feature-Reihe, Team-Grid |
+| 5 – Pages | Seiten sind nur Aneinanderreihungen von Patterns | Startseite, Produktdetail, News-Übersicht |
+
+- Jede Ebene darf nur Ebenen verwenden, die unter ihr liegen – nie umgekehrt.
+
+---
+
+## C. SEITENSTRUKTUR UND SEMANTISCHES HTML
+
+### C.1 Das Skelett jeder Seite
+
+```
+<body>
+   Äußerer Wrapper (width: 100%, verhindert horizontalen Overflow)
+   <navbar>  Navigation
+   <header>  Seiten-Header (Hero-Bereich)
+   <section>  Abschnitt 1 (z. B. Hero)
+      Container → Inhalt
+   <section>  Abschnitt 2 (z. B. Features)
+      Container → Inhalt
+   <footer>
+      Container → Inhalt
+</body>
+```
+
+### C.2 HTML-Elemente und ihre Verwendung
+
+| HTML-Element | Verwendung und Regel |
+|---|---|
+| `<navbar>` | Einmal pro Seite. Enthält ausschließlich die Navigation. |
+| `<header>` | Einmal pro Seite. Enthält den Hero-Bereich. |
+| `<section>` | Jeder inhaltliche Seitenabschnitt. Immer mit sichtbarer Überschrift verknüpft. |
+| `<footer>` | Einmal pro Seite, nach dem letzten `<section>`. |
+| `<h1>` bis `<h6>` | Strikte Hierarchie. Genau ein `<h1>` pro Seite. |
+| `<address>` | Im Footer für Kontaktdaten (Adresse, E-Mail, Telefon). |
+
+### C.3 Heading-Hierarchie
+
+```
+H1  –  Einmal pro Seite. Enthält das primäre Keyword der Seite.
+H2  –  Hauptabschnitte der Seite.
+H3  –  Unterabschnitte innerhalb eines H2-Bereichs.
+H4  –  Nur wenn H3 vorhanden. Niemals als erstes Heading.
+```
+
+- Keine Sprünge. Nach H1 kommt H2, nicht H3.
+- H1 wird niemals für Styling verwendet – nur für Semantik.
+- Im Fließtext (Rich Text) kein H1 verwenden.
+
+---
+
+## D. NAVIGATION
+
+### D.1 Struktur
+
+```
+NAVBAR
+   Zone Links   :  Logo (verlinkt auf Startseite)
+   Zone Mitte   :  Hauptnavigationspunkte mit Dropdowns
+   Zone Rechts  :  CTA-Buttons + (ab Tablet) Burger-Button
+```
+
+### D.2 Hauptnavigationspunkte (fix)
+
+| Hauptpunkt | Dropdown-Inhalt |
+|---|---|
+| Über Uns / Unternehmen | Unterseiten zu Firma, Team, ggf. Werte/Geschichte |
+| Leistungen / Produkte | Je nach Geschäftsmodell mit Dropdown |
+| Referenzen / Cases | Unterseiten oder CMS-Sammlung |
+| News / Blog | CMS-Sammlung |
+| Kontakt | Eigene Seite, kein Dropdown |
+
+### D.3 Dropdown-Verhalten
+
+| | |
+|---|---|
+| Trigger | Hover (Desktop) + Klick (Touch/Mobile) |
+| Öffnen | Dropdown erscheint, `aria-expanded="true"` wird gesetzt |
+| Schließen | Klick außerhalb, Fokus verlassen, Escape-Taste |
+| Animation | Opacity + translateY, kein clip-path für bessere Performance |
+
+### D.4 Responsive
+- Burger-Menü ab Tablet-Breakpoint (≤ 991 px).
+- Burger-Button: `aria-label="Menü öffnen/schließen"`, `aria-expanded` korrekt gesetzt.
+- Mobile Nav öffnet als Fullscreen-Overlay oder Slide-in-Panel – keine horizontale Scroll-Navigation.
+- Logo und CTA-Button bleiben auf allen Breakpoints sichtbar.
+
+---
+
+## E. SEO-SYSTEMATIK
+
+### E.1 URL-Struktur
+
+| | |
+|---|---|
+| Startseite | `/` |
+| Statische Seiten | `/ueber-uns`, `/kontakt` |
+| CMS-Sammlungen | `/leistungen/[slug]`, `/blog/[slug]` |
+| Canonical | Kein doppelter Content über `/index` vs. `/` – Webflow setzt Canonical automatisch. |
+
+### E.2 Meta-Felder (Pflicht in jedem CMS-Item)
+- SEO Title: max. 60 Zeichen, enthält primäres Keyword.
+- Meta Description: 120–160 Zeichen, handlungsorientierten Text.
+- OG Title + OG Description für Social Sharing.
+- OG Image: min. 1200 × 630 px, projektspezifisch.
+
+### E.3 Interne Verlinkung
+- Jede wichtige Seite wird von mindestens zwei anderen Seiten verlinkt.
+- Ankertexte sind sprechend – kein „Hier klicken".
+- Breadcrumbs bei Seiten tiefer als 2 Ebenen.
+
+### E.4 Core Web Vitals – Strukturelle Maßnahmen
+
+| | |
+|---|---|
+| LCP | Hero-Bild als eager + preload. Keine CSS-background-images für LCP-Elemente. |
+| CLS | Explizite width + height auf img. Keine unsizing iframes. |
+| FID/INP | Kein schweres JS im `<head>`. Drittanbieter mit defer/async. |
+
+---
+
+## F. CMS-STRUKTUR
+
+### F.1 Kollektionen (Mindestset)
+
+| Kollektion | Felder |
+|---|---|
+| Blog-Beiträge | Slug, Titel, Datum, Autor (Ref), Kategorie (Ref), SEO-Felder, Featured Image, Rich Text |
+| Leistungen | Slug, Titel, Kurzbeschreibung, Icon/Bild, SEO-Felder, Reihenfolge |
+| Team | Name, Rolle, Bild, Kurz-Bio, LinkedIn-URL |
+| Kategorien | Name, Slug (für Blog-Filter) |
+
+### F.2 Pflichtfelder in jeder Kollektion
+- Slug: URL-sicherer Bezeichner, manuell pflegbar.
+- SEO Title + Meta Description als eigene Felder (nicht aus Titel generieren).
+- Featured Image mit alt-Text-Feld.
+- Published-Toggle: Entwürfe bleiben nicht-indiziert.
+
+### F.3 Verknüpfungen
+- Autor-Feld in Blog = Referenz auf Team-Kollektion.
+- Kategorie-Feld = Multi-Referenz auf Kategorien-Kollektion.
+- Verwandte Beiträge = Multi-Referenz auf Blog-Beiträge (max. 3).
+
+---
+
+## G. KOMPONENTENINVENTAR
+
+### G.1 Aufbau jeder Komponente
+- Jede Komponente ist eine eigenständige Webflow-Symbol-Gruppe oder Section.
+- Alle Texte über CMS-Felder oder Webflow Symbols mit Overrides befüllbar.
+- Varianten über Modifier-Klassen (`block--variante`), nicht über separate Symbole.
+
+### G.2 Startseite – Sections
+
+| Section | Beschreibung |
+|---|---|
+| `hero` | Hauptaussage, CTA, Hero-Bild/Video |
+| `social-proof` | Logos oder Testimonial-Slider |
+| `about` | Who we are / what we do |
+| `the-business` | 3–6 Leistungs-Kacheln, Icon + Titel + Kurztext → Geschäftsbereiche oder Angebot |
+| `the-business-explained` | Rechts-links-Elemente, die ausführlicher darstellen, was wir für eine Firma sind |
+| `principles` | 3 Kacheln vor Hintergrund |
+| `blog-preview` | 3 neueste Blog-Beiträge aus CMS |
+| `sustainability` | Rechts-links-Element über Nachhaltigkeit |
+| `contact-teaser` | Kurzer Text + Kontakt-CTA |
+| `cta-band` | Einzeiliger Banner mit einem CTA-Button |
+
+### G.3 Wiederverwendbare Komponenten
+
+| Komponente | Inhalt |
+|---|---|
+| `navbar` | Logo, Nav-Links, CTA, Burger |
+| `footer` | Adresse, Links, Social, Copyright |
+| `card--blog` | Featured Image, Datum, Titel, Excerpt, CTA-Link |
+| `card--service` | Icon, Titel, Kurztext |
+| `card--team` | Portrait, Name, Rolle, LinkedIn |
+| `form--contact` | Name, E-Mail, Nachricht, Consent, Submit |
+
+### G.4 Varianten
+- Buttons: `btn--primary`, `btn--secondary`, `btn--ghost`.
+- Karten: `card--highlight` (dunkler Hintergrund) vs. `card--default`.
+- Sections: `section--dark`, `section--light`, `section--accent`.
+
+---
+
+## H. RESPONSIVE-SYSTEMATIK
+
+### H.1 Breakpoints
+
+| | |
+|---|---|
+| Desktop | > 991 px |
+| Tablet | ≤ 991 px |
+| Mobile Landscape | ≤ 767 px |
+| Mobile Portrait | ≤ 479 px |
+
+Zusätzlich: Mindest-Viewport 360 px – kein horizontaler Overflow, kein Clipping.
+
+### H.2 Layout-Prinzipien
+- Alle Breiten in Prozent, `fr` oder `auto` – keine starren px-Werte für Hauptbereiche.
+- Keine fixen Höhen auf Sections oder Containern.
+- Bilder skalieren immer fluid (`max-width: 100%`).
+- Schriftgrößen skalieren fluid mit `clamp()` zwischen Breakpoints.
+- Mehrspaltige Layouts stapeln sich auf Mobile: Bild oben, Text darunter.
+- Touch-Targets: Buttons und Links sind mindestens 44 × 44 px.
+
+### H.3 Test-Pflicht vor jeder Übergabe
+
+```
+1920 px  –  Max-Width-Zentrierung korrekt, kein Overflow
+1440 px  –  Standard-Desktop, alle Grids korrekt
+ 992 px  –  Tablet-Layout aktiv, Burger sichtbar
+ 768 px  –  Mobile Landscape, Einspaltigkeitsregel greift
+ 480 px  –  Kleine Mobile, Buttons tappbar
+ 360 px  –  KRITISCH: kein horizontaler Scroll, kein Text-Clipping
+```
+
+---
+
+## I. MEHRSPRACHIGKEIT
+
+### I.1 URL-Struktur
+
+```
+Deutsch (Standard)  :  https://www.domain.de/
+Englisch            :  https://en.domain.de/
+Alternative         :  https://www.domain.de/en/
+```
+
+### I.2 hreflang-Logik
+- Jede Seite verweist auf sich selbst und alle anderen Sprachvarianten.
+- Zusätzlich immer ein `x-default`-Verweis auf die Standard-Sprachversion.
+- In Webflow: Über Custom Code im Page-Head oder via CMS-Feld und Embed-Element.
+- Bei Webflow Localization (ab Business-Plan) übernimmt Webflow das hreflang-Management automatisch.
+
+### I.3 Strukturelle Vorbereitung
+- Sprachauswahl in der Navbar vorbereiten – als eigene Zone rechts neben den CTAs.
+- Kein Text wird in Komponenten hardcodiert – alles über CMS-Felder befüllbar.
+- Alt-Texte sind sprachabhängig – im CMS als separates Feld anlegen.
+- Button-Beschriftungen und Formular-Labels müssen übersetzbar sein.
+
+---
+
+## J. ACCESSIBILITY – MINDESTANFORDERUNGEN (WCAG 2.1 AA)
+
+| Bereich | Anforderung |
+|---|---|
+| Fokus-Sichtbarkeit | Jedes interaktive Element muss bei Tastaturfokus sichtbar markiert sein. Webflow entfernt Fokus-Outlines per Default – muss im Global Custom CSS rückgängig gemacht werden. |
+| Semantisches HTML | Die richtigen HTML-Elemente verwenden (Kapitel C), nicht div für alles. |
+| Alt-Texte | Bedeutungstragende Bilder: beschreibender Alt-Text. Dekorative Bilder: `alt=""`. Nie fehlen lassen. |
+| ARIA-Labels | Navigationen, Burger-Button, Dropdowns, Tabs und Accordions brauchen aria-Attribute für Screenreader. |
+| Skiplink | „Zum Inhalt springen"-Link als erstes Element im Body – unsichtbar bis fokussiert. |
+| Formular-Labels | Jedes Formularfeld hat ein sichtbares oder aria-beschriftetes Label. Placeholder ist kein Ersatz. |
+| DOM-Reihenfolge | Die Reihenfolge im HTML entspricht der visuellen Lesereihenfolge. |
+| Kontrast | Text auf Hintergrund: min. 4,5:1 (Fließtext), 3:1 (großer Text). Wird im Design-System geregelt. |
+
+---
+
+## K. PERFORMANCE – STRUKTURELLE MASSNAHMEN
+
+### K.1 Bilder
+- Webflow Image Optimization aktivieren – liefert automatisch WebP/AVIF aus.
+- Explizite Dimensionen (width + height) auf jedem img-Element – verhindert Layout Shift (CLS).
+- Hero-Bild: `loading="eager"`, `fetchpriority="high"` – als Custom Attribute in Webflow setzen.
+- Alle anderen Bilder: lazy loading (Webflow-Standard, keine Änderung nötig).
+- SVG für Logos, Icons und Illustrationen bevorzugen – keine Pixelbilder für Vektorgrafiken.
+
+### K.2 Scripts
+- Custom Code immer im Footer-Embed (vor `</body>`), nie im `<head>` – außer wenn zwingend nötig.
+- Drittanbieter-Scripts immer mit `defer` oder `async` einbinden.
+- Webflow bringt jQuery mit (ca. 36 kB) – kein zweites jQuery einbinden.
+- Webflow CMS: Pagination bei mehr als 20 Items – keine unpaginierten Riesenlisten.
+
+---
+
+## L. ABNAHME-CHECKLISTE
+
+### L.1 Struktur
+- [ ] section → Container → Inhalt überall eingehalten
+- [ ] Kein Element ohne sprechenden Namen
+- [ ] H1 genau einmal pro Seite
+- [ ] Heading-Hierarchie korrekt, keine Sprünge
+- [ ] Alle interaktiven Elemente mit sichtbarem Label oder aria-label
+
+### L.2 SEO
+- [ ] SEO Title und Meta Description in allen CMS-Items befüllt
+- [ ] Alt-Texte für alle bedeutungstragenden Bilder gesetzt
+- [ ] Canonical-URLs korrekt (bei CMS-Paginierung prüfen)
+- [ ] Sitemap in Webflow aktiviert
+- [ ] hreflang korrekt gesetzt (bei Mehrsprachigkeit)
+
+### L.3 Responsive
+- [ ] Kein horizontaler Scroll bei 360 px
+- [ ] Navbar-Burger öffnet und schließt korrekt
+- [ ] Touch-Targets: min. 44 × 44 px
+- [ ] Bilder skalieren fluid, kein Overflow
+
+### L.4 Performance
+- [ ] Lighthouse: ≥ 90 in Performance, Accessibility, Best Practices, SEO
+- [ ] Kein render-blockierender Code im `<head>`
+- [ ] Hero-Bild als eager/preload markiert
+
+---
+
+## Quellen (Webflow-Referenzen)
+
+- Webflow Help Center: Variables  
+  https://help.webflow.com/hc/en-us/articles/33961268146323-Variables
+- Webflow Help Center: Navbar  
+  https://help.webflow.com/hc/en-us/articles/33961304628627-Navbar
+- Webflow Help Center: Navbar menu button  
+  https://help.webflow.com/hc/en-us/articles/33961330610579-Navbar-menu-button
+- Webflow Help Center: Breakpoints overview  
+  https://help.webflow.com/hc/en-us/articles/33961300305811-Breakpoints-overview
+- Webflow Help Center: Custom CSS properties and values  
+  https://help.webflow.com/hc/en-us/articles/33961265610259-Custom-CSS-properties-and-values
+- Webflow Help Center: Classes  
+  https://help.webflow.com/hc/en-us/articles/33961311094419-Classes
+
+---
+
+**Ende des Standards**  
+Dieses Dokument ist als „Single Source of Truth" gedacht: Änderungen hier gelten für alle Projekte, die darauf basieren.

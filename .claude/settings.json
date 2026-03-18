@@ -1,0 +1,22 @@
+{
+  "$schema": "https://code.claude.com/schema/settings.json",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "WebFetch(developers.webflow.com)",
+      "WebFetch(help.webflow.com)",
+      "WebFetch(itemplate.design.webflow.com)",
+      "MCP(webflow)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  },
+  "env": {
+    "MCP_TIMEOUT": "60000"
+  }
+}

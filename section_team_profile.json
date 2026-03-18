@@ -1,0 +1,601 @@
+{
+  "_meta": {
+    "site_id": "699f435633df7bdd84c75b23",
+    "component_id": "699f435733df7bdd84c75b6c",
+    "extracted": "2026-02-26",
+    "description": "1:1 Reproduktionsprofil der section_team Sektion inkl. aller CSS-Klassen, Responsivität und Hover-Animation",
+    "animation_note": "Hover-Effekt: .team_content fährt von unten hoch und füllt die gesamte Kachel aus. Implementierung via Custom CSS (feste Starthöhe statt height:auto).",
+    "animation_css": {
+      "description": "Einbinden via Site Settings → Custom Code → Footer Code oder als lokales Embed-Element in der Section",
+      "important": "7.5rem ist der Startwert – anpassen bis Role+Name exakt sichtbar sind. Ggf. per @media für mobile Breakpoints feinjustieren.",
+      "code": ".team_content { display: flex; height: 7.5rem; overflow: hidden; transition: height 0.4s ease-out; } .team_item:hover .team_content { height: 100%; } .team_description { opacity: 0; transition: opacity 0.25s ease-out 0.15s; } .team_item:hover .team_description { opacity: 1; } @media (max-width: 768px) { .team_content { height: 8rem; } }",
+      "code_formatted": [
+        ".team_content {",
+        "  display: flex;",
+        "  height: 7.5rem;           /* ← anpassen bis Role+Name genau passt */",
+        "  overflow: hidden;",
+        "  transition: height 0.4s ease-out;",
+        "}",
+        ".team_item:hover .team_content {",
+        "  height: 100%;",
+        "}",
+        ".team_description {",
+        "  opacity: 0;",
+        "  transition: opacity 0.25s ease-out 0.15s; /* 0.15s Verzögerung */",
+        "}",
+        ".team_item:hover .team_description {",
+        "  opacity: 1;",
+        "}",
+        "@media (max-width: 768px) {",
+        "  .team_content { height: 8rem; }",
+        "}"
+      ],
+      "why_fixed_height": "height:auto ist nicht animierbar. Durch eine feste Starthöhe (z.B. 7.5rem) wächst das Element organisch von unten nach oben – kein translateY-Workaround nötig.",
+      "webflow_note": "In Webflow muss height:auto im Style .team_content durch den festen Wert (7.5rem) ersetzt werden – entweder direkt im Style-Panel oder via Custom CSS-Override."
+    }
+  },
+
+  "section_team": {
+    "element_id": "b2b06a95-fccf-4111-3456-0c093f42560c",
+    "type": "Block",
+    "styles": [
+      {
+        "name": "section_team",
+        "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b57",
+        "properties": {
+          "medium": {
+            "noPseudo": {
+              "overflow": "hidden"
+            }
+          }
+        }
+      }
+    ],
+    "children": [
+      {
+        "element_id": "b2b06a95-fccf-4111-3456-0c093f42560d",
+        "type": "Block",
+        "styles": [
+          {
+            "name": "padding-global",
+            "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b50",
+            "properties": {
+              "main": {
+                "noPseudo": {
+                  "padding-right": "2.5rem",
+                  "padding-left": "2.5rem"
+                }
+              },
+              "small": {
+                "noPseudo": {
+                  "padding-right": "1.25rem",
+                  "padding-left": "1.25rem"
+                }
+              }
+            }
+          }
+        ],
+        "children": [
+          {
+            "element_id": "b2b06a95-fccf-4111-3456-0c093f42560e",
+            "type": "Block",
+            "styles": [
+              {
+                "name": "container-large",
+                "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5b",
+                "properties": {
+                  "main": {
+                    "noPseudo": {
+                      "width": "100%",
+                      "max-width": "80rem",
+                      "margin-right": "auto",
+                      "margin-left": "auto"
+                    }
+                  }
+                }
+              }
+            ],
+            "children": [
+              {
+                "element_id": "b2b06a95-fccf-4111-3456-0c093f42560f",
+                "type": "Block",
+                "styles": [
+                  {
+                    "name": "padding-section-xsmall",
+                    "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b52",
+                    "properties": {
+                      "main": {
+                        "noPseudo": {
+                          "padding-top": "2rem",
+                          "padding-bottom": "2rem"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "children": [
+                  {
+                    "element_id": "b2b06a95-fccf-4111-3456-0c093f425610",
+                    "type": "Block",
+                    "styles": [
+                      {
+                        "name": "about_team_component",
+                        "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5c",
+                        "properties": {
+                          "main": {
+                            "noPseudo": {
+                              "position": "relative",
+                              "display": "flex",
+                              "flex-direction": "column",
+                              "justify-content": "flex-start",
+                              "align-items": "flex-start"
+                            }
+                          },
+                          "small": {
+                            "noPseudo": {
+                              "align-items": "center"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "children": [
+                      {
+                        "element_id": "b2b06a95-fccf-4111-3456-0c093f425611",
+                        "type": "Block",
+                        "styles": [
+                          {
+                            "name": "about_team_header",
+                            "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b4f",
+                            "properties": {
+                              "main": {
+                                "noPseudo": {
+                                  "display": "flex",
+                                  "margin-bottom": "4rem",
+                                  "flex-direction": "column",
+                                  "flex-grow": "0",
+                                  "flex-shrink": "1",
+                                  "flex-basis": "auto",
+                                  "grid-auto-flow": "column",
+                                  "grid-auto-columns": "1fr",
+                                  "grid-template-columns": "1fr 1fr",
+                                  "grid-template-rows": "auto auto"
+                                }
+                              },
+                              "medium": {
+                                "noPseudo": {
+                                  "grid-template-columns": "1fr"
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "children": [
+                          {
+                            "element_id": "b2b06a95-fccf-4111-3456-0c093f425612",
+                            "type": "Block",
+                            "styles": [
+                              {
+                                "name": "max-width-large",
+                                "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b54",
+                                "properties": {
+                                  "main": {
+                                    "noPseudo": {
+                                      "width": "100%",
+                                      "max-width": "48rem"
+                                    }
+                                  }
+                                }
+                              }
+                            ],
+                            "children": [
+                              {
+                                "element_id": "b2b06a95-fccf-4111-3456-0c093f425613",
+                                "type": "Heading",
+                                "headingLevel": 2,
+                                "styles": [],
+                                "text": "Teamwork is the only way we work"
+                              }
+                            ]
+                          },
+                          {
+                            "element_id": "b2b06a95-fccf-4111-3456-0c093f425615",
+                            "type": "Block",
+                            "styles": [
+                              {
+                                "name": "padding-bottom",
+                                "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b56",
+                                "properties": {
+                                  "main": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                  "small": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                  "medium": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                  "tiny": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } }
+                                }
+                              },
+                              {
+                                "name": "padding-small",
+                                "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5f",
+                                "isComboClass": true,
+                                "properties": {}
+                              }
+                            ],
+                            "children": [
+                              {
+                                "element_id": "b2b06a95-fccf-4111-3456-0c093f425616",
+                                "type": "Paragraph",
+                                "styles": [],
+                                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros blandit, hendrerit elit et, mattis purus. Vivamus commodo suscipit tellus et pellentesque."
+                              }
+                            ]
+                          }
+                        ]
+                      },
+
+                      {
+                        "element_id": "b2b06a95-fccf-4111-3456-0c093f425618",
+                        "type": "Block",
+                        "styles": [
+                          {
+                            "name": "team_grid",
+                            "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b53",
+                            "properties": {
+                              "main": {
+                                "noPseudo": {
+                                  "display": "grid",
+                                  "width": "100%",
+                                  "grid-auto-columns": "1fr",
+                                  "grid-column-gap": "2rem",
+                                  "grid-row-gap": "2rem",
+                                  "grid-template-columns": "1fr 1fr 1fr 1fr",
+                                  "grid-template-rows": "auto"
+                                }
+                              },
+                              "medium": {
+                                "noPseudo": { "grid-template-columns": "1fr 1fr" }
+                              },
+                              "small": {
+                                "noPseudo": { "grid-template-columns": "1fr" }
+                              }
+                            }
+                          }
+                        ],
+                        "children": [
+                          {
+                            "_note": "TEAM ITEM PATTERN — wiederholt sich 4x mit unterschiedlichen Bildern & Texten",
+                            "type": "Block",
+                            "styles": [
+                              {
+                                "name": "team_item",
+                                "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b55",
+                                "properties": {
+                                  "main": {
+                                    "noPseudo": {
+                                      "position": "relative",
+                                      "overflow": "hidden",
+                                      "width": "100%",
+                                      "border-top-left-radius": "1.25rem",
+                                      "border-top-right-radius": "1.25rem",
+                                      "border-bottom-left-radius": "1.25rem",
+                                      "border-bottom-right-radius": "1.25rem"
+                                    }
+                                  }
+                                },
+                                "_animation_note": "team_item ist overflow:hidden. team_content startet am Bottom mit fester Höhe. Bei Hover (CSS oder Webflow Interaction) erhöht sich die Höhe von team_content auf 100%, so dass der vorher versteckte Text (team_description) sichtbar wird. Implementierung via Webflow Interaction: Trigger=Mouse Over/Out, Action=Height animieren oder translateY"
+                              }
+                            ],
+                            "children": [
+                              {
+                                "type": "Image",
+                                "styles": [
+                                  {
+                                    "name": "team_image",
+                                    "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5d",
+                                    "properties": {
+                                      "main": {
+                                        "noPseudo": {
+                                          "width": "100%",
+                                          "height": "28rem",
+                                          "object-fit": "cover"
+                                        }
+                                      },
+                                      "small": {
+                                        "noPseudo": { "height": "28rem" }
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "Block",
+                                "styles": [
+                                  {
+                                    "name": "team_content",
+                                    "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b59",
+                                    "properties": {
+                                      "main": {
+                                        "noPseudo": {
+                                          "position": "absolute",
+                                          "left": "0%",
+                                          "top": "auto",
+                                          "right": "0%",
+                                          "bottom": "0%",
+                                          "padding-top": "2rem",
+                                          "padding-right": "2rem",
+                                          "padding-bottom": "2rem",
+                                          "padding-left": "2rem",
+                                          "flex-direction": "column",
+                                          "justify-content": "flex-start",
+                                          "align-items": "flex-start",
+                                          "border-top-left-radius": "1.25rem",
+                                          "border-top-right-radius": "1.25rem",
+                                          "border-bottom-left-radius": "1.25rem",
+                                          "border-bottom-right-radius": "1.25rem",
+                                          "background-color": "hsla(0, 0.00%, 14.51%, 0.90)",
+                                          "color": "hsla(204.61538461538464, 0.00%, 100.00%, 1.00)"
+                                        }
+                                      }
+                                    },
+                                    "_animation_note": "HOVER-ANIMATION: Dieses Element fährt bei Hover von unten hoch und füllt die gesamte Kachel aus. Implementierung: Webflow Interaction auf team_item → Mouse Over → team_content height: 0→100% oder transform: translateY(Xpx)→translateY(0). Dauer empfohlen: 0.3-0.4s, Easing: ease-out"
+                                  }
+                                ],
+                                "children": [
+                                  {
+                                    "type": "Block",
+                                    "styles": [
+                                      { "name": "text-size-small", "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b51",
+                                        "properties": { "main": { "noPseudo": { "font-size": "0.875rem" } } }
+                                      },
+                                      { "name": "text-style-muted", "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5e", "isComboClass": true, "properties": {} }
+                                    ],
+                                    "text": "[ROLE — z.B. CEO / CTO / Developer]"
+                                  },
+                                  {
+                                    "type": "Heading",
+                                    "headingLevel": 3,
+                                    "styles": [
+                                      {
+                                        "name": "team_name",
+                                        "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b58",
+                                        "properties": {
+                                          "main": {
+                                            "noPseudo": {
+                                              "color": "hsla(204, 0.00%, 100.00%, 1.00)",
+                                              "font-size": "1.5rem",
+                                              "line-height": "1.5",
+                                              "font-weight": "500"
+                                            }
+                                          },
+                                          "small": {
+                                            "noPseudo": { "font-size": "1.25rem" }
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "text": "[NAME — z.B. Tom Raikonnen]"
+                                  },
+                                  {
+                                    "type": "Block",
+                                    "styles": [
+                                      { "name": "padding-bottom", "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b56",
+                                        "properties": {
+                                          "main": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                          "small": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                          "medium": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } },
+                                          "tiny": { "noPseudo": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" } }
+                                        }
+                                      },
+                                      { "name": "padding-small", "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5f", "isComboClass": true, "properties": {} }
+                                    ]
+                                  },
+                                  {
+                                    "type": "Paragraph",
+                                    "styles": [
+                                      {
+                                        "name": "team_description",
+                                        "style_id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5a",
+                                        "properties": {
+                                          "main": {
+                                            "noPseudo": {
+                                              "color": "hsla(203.22580645161293, 0.00%, 100.00%, 1.00)",
+                                              "font-size": "0.875rem",
+                                              "font-weight": "400"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "text": "[DESCRIPTION — anfangs nicht sichtbar, erscheint bei Hover]",
+                                    "_visibility_note": "Dieser Text ist im Ruhezustand NICHT sichtbar, weil team_content nur einen kleinen Teil der Kachel von unten einnimmt. Erst beim Hover (Hochfahren des team_content) wird er lesbar."
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "team_members": [
+    {
+      "position": 1,
+      "element_id": "b2b06a95-fccf-4111-3456-0c093f425619",
+      "name": "Tom Raikonnen",
+      "role": "CEO",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros.",
+      "image": {
+        "asset_id": "69a03448f0f2e08eefb14641",
+        "filename": "team-member1.jpg",
+        "url": "https://cdn.prod.website-files.com/699f435633df7bdd84c75b23/69a03448f0f2e08eefb14641_team-member1.jpg",
+        "alt_text": "A person's portrait photo"
+      }
+    },
+    {
+      "position": 2,
+      "element_id": "b2b06a95-fccf-4111-3456-0c093f425623",
+      "name": "Timmothy Burns",
+      "role": "CTO",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros.",
+      "image": {
+        "asset_id": "69a03448f0f2e08eefb14646",
+        "filename": "team-member2.jpg",
+        "url": "https://cdn.prod.website-files.com/699f435633df7bdd84c75b23/69a03448f0f2e08eefb14646_team-member2.jpg",
+        "alt_text": "A person's portrait photo"
+      }
+    },
+    {
+      "position": 3,
+      "element_id": "b2b06a95-fccf-4111-3456-0c093f42562d",
+      "name": "John Mastersson",
+      "role": "Developer",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros.",
+      "image": {
+        "asset_id": "69a03448f0f2e08eefb14635",
+        "filename": "team-member3.jpg",
+        "url": "https://cdn.prod.website-files.com/699f435633df7bdd84c75b23/69a03448f0f2e08eefb14635_team-member3.jpg",
+        "alt_text": "A person's portrait photo"
+      }
+    },
+    {
+      "position": 4,
+      "element_id": "b2b06a95-fccf-4111-3456-0c093f425637",
+      "name": "Selby Johnson",
+      "role": "Developer",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros.",
+      "image": {
+        "asset_id": "69a03448f0f2e08eefb1463c",
+        "filename": "team-member4.jpg",
+        "url": "https://cdn.prod.website-files.com/699f435633df7bdd84c75b23/69a03448f0f2e08eefb1463c_team-member4.jpg",
+        "alt_text": "A person's portrait photo"
+      }
+    }
+  ],
+
+  "all_styles_used": {
+    "section_team": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b57",
+      "medium": { "overflow": "hidden" }
+    },
+    "padding-global": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b50",
+      "main": { "padding-right": "2.5rem", "padding-left": "2.5rem" },
+      "small": { "padding-right": "1.25rem", "padding-left": "1.25rem" }
+    },
+    "container-large": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5b",
+      "main": { "width": "100%", "max-width": "80rem", "margin-right": "auto", "margin-left": "auto" }
+    },
+    "padding-section-xsmall": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b52",
+      "main": { "padding-top": "2rem", "padding-bottom": "2rem" }
+    },
+    "about_team_component": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5c",
+      "main": { "position": "relative", "display": "flex", "flex-direction": "column", "justify-content": "flex-start", "align-items": "flex-start" },
+      "small": { "align-items": "center" }
+    },
+    "about_team_header": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b4f",
+      "main": { "display": "flex", "margin-bottom": "4rem", "flex-direction": "column", "grid-template-columns": "1fr 1fr" },
+      "medium": { "grid-template-columns": "1fr" }
+    },
+    "max-width-large": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b54",
+      "main": { "width": "100%", "max-width": "48rem" }
+    },
+    "padding-bottom": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b56",
+      "all_breakpoints": { "padding-top": "0rem", "padding-right": "0rem", "padding-left": "0rem" }
+    },
+    "padding-small": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5f",
+      "isComboClass": true
+    },
+    "team_grid": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b53",
+      "main": { "display": "grid", "width": "100%", "grid-auto-columns": "1fr", "grid-column-gap": "2rem", "grid-row-gap": "2rem", "grid-template-columns": "1fr 1fr 1fr 1fr", "grid-template-rows": "auto" },
+      "medium": { "grid-template-columns": "1fr 1fr" },
+      "small": { "grid-template-columns": "1fr" }
+    },
+    "team_item": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b55",
+      "main": { "position": "relative", "overflow": "hidden", "width": "100%", "border-radius": "1.25rem" }
+    },
+    "team_image": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5d",
+      "main": { "width": "100%", "height": "28rem", "object-fit": "cover" },
+      "small": { "height": "28rem" }
+    },
+    "team_content": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b59",
+      "main": {
+        "position": "absolute",
+        "left": "0%", "top": "auto", "right": "0%", "bottom": "0%",
+        "padding-top": "2rem", "padding-right": "2rem", "padding-bottom": "2rem", "padding-left": "2rem",
+        "flex-direction": "column", "justify-content": "flex-start", "align-items": "flex-start",
+        "border-radius": "1.25rem",
+        "background-color": "hsla(0, 0.00%, 14.51%, 0.90)",
+        "color": "hsla(204.61538461538464, 0.00%, 100.00%, 1.00)"
+      }
+    },
+    "text-size-small": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b51",
+      "main": { "font-size": "0.875rem" }
+    },
+    "text-style-muted": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5e",
+      "isComboClass": true
+    },
+    "team_name": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b58",
+      "main": { "color": "hsla(204, 0.00%, 100.00%, 1.00)", "font-size": "1.5rem", "line-height": "1.5", "font-weight": "500" },
+      "small": { "font-size": "1.25rem" }
+    },
+    "team_description": {
+      "id": "c1d704ec-7e45-5f08-86a8-a2e499cd6b5a",
+      "main": { "color": "hsla(203.22580645161293, 0.00%, 100.00%, 1.00)", "font-size": "0.875rem", "font-weight": "400" }
+    }
+  },
+
+  "hover_animation_implementation_guide": {
+    "description": "Hover-Effekt: team_content fährt hoch und füllt die gesamte Kachel aus. Implementierung via Custom CSS (height:auto ersetzt durch festen Startwert).",
+    "step_1": "Im Webflow Style-Panel: .team_content → height von 'auto' auf '7.5rem' setzen",
+    "step_2": "CSS aus _meta.animation_css via Site Settings → Custom Code → Footer Code einbinden",
+    "step_3": "7.5rem im Browser testen und ggf. feinjustieren",
+    "_old_option_A_webflow_interactions": {
+      "trigger": "Mouse over / Mouse out auf .team_item",
+      "on_hover": [
+        { "target": ".team_content", "action": "Set Height", "value": "100%", "duration_ms": 350, "easing": "ease-out" }
+      ],
+      "on_mouse_out": [
+        { "target": ".team_content", "action": "Set Height", "value": "auto (initial)", "duration_ms": 300, "easing": "ease-in" }
+      ],
+      "note": "team_description initial: opacity 0 oder display none, bei Hover: opacity 1. Alternativ: team_content startet mit height die nur Role+Name zeigt, bei Hover height:100%"
+    },
+    "option_B_custom_css": {
+      "code": ".team_content { transition: height 0.35s ease-out; height: auto; } .team_item:hover .team_content { height: 100%; }",
+      "note": "Erfordert initialen height-Wert (z.B. 8rem) statt auto, damit die Transition greift"
+    }
+  },
+
+  "dom_hierarchy_summary": {
+    "level_0": "section_team (Block, overflow:hidden @ medium)",
+    "level_1": "padding-global (Block)",
+    "level_2": "container-large (Block, max-width: 80rem, centered)",
+    "level_3": "padding-section-xsmall (Block, py: 2rem)",
+    "level_4": "about_team_component (Flex Column)",
+    "level_5a": "about_team_header (Flex, mb: 4rem) → max-width-large → H2 + padding-bottom → Paragraph",
+    "level_5b": "team_grid (CSS Grid, 4 cols → 2 cols @medium → 1 col @small)",
+    "level_6": "team_item × 4 (position:relative, overflow:hidden, border-radius: 1.25rem)",
+    "level_7a": "team_image (img, height: 28rem, object-fit:cover)",
+    "level_7b": "team_content (position:absolute, bottom:0, dark semi-transparent BG → ANIMIERT bei Hover)"
+  }
+}

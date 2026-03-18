@@ -1,0 +1,477 @@
+# DESIGN SYSTEM — "Pipely"-Style (Webflow) — Quelle: pipely.webflow.io
+
+Stand: 2026-03-06  
+Version: 2.0.0  
+Quelle: Webflow Template "Pipely" + Style Guide-Seite (pipely.webflow.io/template/style-guide)
+
+---
+
+## Changelog
+
+### v2.0.0 — 2026-03-06
+- **Changed:** Button-System von `button is-*` auf `btn--*` umgestellt (Breaking Change)
+- **Changed:** Section-Modifier bleiben funktional (`section--hero`, `section--feature`, `section--footer`) gemäß styles.css
+- **Confirmed:** Navbar-Naming folgt Pipely-Klassen (`navbar`, `navbar_content`, `nav_links` etc.)
+- **Confirmed:** Hero-Naming folgt Pipely-Klassen (`section_hero`, `hero_content` etc.)
+- **Changed:** G.2 Startseite-Sections auf neue Seitenstruktur aktualisiert
+- **Migration Notes:** Alle `button is-small`, `button is-secondary`, `button is-outline` im Webflow-Designer auf `btn btn--*` umbenennen
+
+### v1.0.0 — 2026-02-24
+- Initial version
+
+---
+
+## Update-Prozess (Pflege dieser Design-Datei)
+
+Diese Datei ist die **Single Source of Truth (SSoT)** für Stil, Tokens, Komponenten und Design-Elemente.  
+Ziel dieses Abschnitts: Änderungen **kontrolliert**, **nachvollziehbar** und **reproduzierbar** durchführen.
+
+### Verantwortlichkeiten (minimaler Prozess)
+- **Owner:** entscheidet bei Konflikten, approved Breaking Changes.
+- **Editor:** trägt Änderungen ein, aktualisiert Changelog/Version, liefert Belege (Screenshots/Computed Styles).
+- **Reviewer (QA):** prüft Konsistenz, Breakpoints, Naming, keine widersprüchlichen Regeln.
+
+> Faustregel: Änderungen an **Tokens/Typografie/Layout-Grundgerüst/Design-Elementen** brauchen mindestens 1 Review.
+
+### Versionsschema (SemVer)
+- **PATCH** (1.2.3 → 1.2.4): Klarstellung, Tippfehler, Doku-Präzisierung, keine visuellen Änderungen.
+- **MINOR** (1.2.3 → 1.3.0): Neue Komponente/Utility/Variante, kompatibel.
+- **MAJOR** (1.2.3 → 2.0.0): Breaking Changes — Umbenennungen, entfernte Klassen, neue Pflichtstruktur.
+
+**Pflicht:** Jede Änderung MUSS die `Changelog`-Sektion aktualisieren.
+
+### Ablauf: So wird ein Update durchgeführt
+
+**Schritt 1 – Änderungsauftrag formulieren:** Was? Warum? Erwartete Auswirkung?
+
+**Schritt 2 – Belege sammeln (Pflicht bei visuellen Änderungen):**
+- Screenshot(s) pro Breakpoint
+- Webflow „Computed Styles" für betroffene Klassen
+- CSS-Snippet (nur relevanter Ausschnitt)
+
+**Schritt 3 – Datei aktualisieren:**
+- Regeln/Tokens/Elemente ergänzen oder ändern
+- Bei Unklarheiten: `TODO:` eintragen (nicht raten)
+- Naming-Konvention prüfen (kebab-case, keine Sonderzeichen)
+
+**Schritt 4 – Konsistenz-Check (Pflicht):**
+- Keine widersprüchlichen Regeln
+- Neues Element folgt Hierarchie: Tokens → Utilities → Components → Patterns → Pages
+- Neue Klassen sind eindeutig + dokumentiert
+
+**Schritt 5 – Validierung in Webflow (Pflicht bei visuellen Änderungen):**
+- Breakpoints: 1920 / 1440 / 991 / 767 / 479 / 360
+- Kein horizontaler Overflow bei 360
+- Fokus-Stile sichtbar (Keyboard Navigation)
+- Typo-Hierarchie stimmt (H1 einmal; Standard-Klassen korrekt)
+
+**Schritt 6 – Version bump + Changelog:** Version anheben, Eintrag ergänzen.
+
+**Schritt 7 – Prompts synchronisieren:** Falls `DESIGN_VERSION` referenziert wird, aktualisieren.
+
+### Deprecation-Regel
+1. Als `DEPRECATED since vX.Y.Z — use <Ersatz> instead` markieren
+2. Entfernen frühestens nach 2 MINOR oder 1 MAJOR Release
+
+### Template: Neues Design-Element
+Jedes neue Element MUSS enthalten: Abrufname, Zweck, Pflichtstruktur, Klassenvertrag, Content Model, Responsive-Regeln, Varianten, Accessibility-Checks, TODOs.
+
+### Template: Changelog-Eintrag
+```
+vX.Y.Z — YYYY-MM-DD
+  Added:
+  Changed:
+  Fixed:
+  Deprecated:
+  Removed:
+  Migration Notes:
+```
+
+---
+
+## 0) Zweck & strikte Priorität (Hierarchie)
+
+1. **Design Tokens** (Farben, Typografie, Spacing, Radius, Shadows)
+2. **Utilities** (Layout/Spacing/Visibility/Text-Utilities)
+3. **Components** (Navbar, Buttons, Cards, Forms, Footer, Hero …)
+4. **Patterns/Sections** (Hero-Pattern, Feature-Pattern, Testimonial-Pattern …)
+5. **Pages** (Seiten sind nur Kompositionen aus Patterns)
+
+> Regel: Wenn etwas nicht eindeutig ist, wird NICHT "frei erfunden", sondern als `TODO:` markiert und in Webflow/Figma verifiziert.
+
+---
+
+## 1) Foundations / Global CSS (nicht verhandelbar)
+
+### 1.1 Text-Rendering
+```css
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+text-rendering: optimizeLegibility;
+```
+
+### 1.2 Fokus-Stile (Accessibility)
+```css
+*:focus-visible,
+input[type="file"]:focus-visible {
+  outline: 0.125rem solid #4d65ff;
+  outline-offset: 0.125rem;
+}
+```
+
+### 1.3 Richtext-Margin-Resets
+In `.w-richtext`:
+- kein Top-Margin beim ersten Element
+- kein Bottom-Margin beim letzten Element
+
+### 1.4 Container-Zentrierung (nie brechen lassen)
+`.container-small`, `.container-medium`, `.container-large` bleiben zentriert:
+```css
+margin-right: auto !important;
+margin-left: auto !important;
+```
+
+### 1.5 Text Clamp Utilities
+- `.text-style-3lines` via `-webkit-line-clamp: 3`
+- `.text-style-2lines` via `-webkit-line-clamp: 2`
+
+---
+
+## 2) Breakpoints & Visibility Utilities
+
+### 2.1 Breakpoints
+- Tablet: `max-width: 991px`
+- Mobile Landscape: `max-width: 767px`
+- Mobile Portrait: `max-width: 479px`
+
+### 2.2 Hide-Utilities
+| Klasse | Wirkung |
+|---|---|
+| `.hide` | `display: none !important` (immer) |
+| `.hide-tablet` | ab ≤ 991px |
+| `.hide-mobile-landscape` | ab ≤ 767px |
+| `.hide-mobile` | ab ≤ 479px |
+
+---
+
+## 3) Layout-System (Strukturklassen)
+
+> Klassennamen sind **kebab-case** (Webflow: alphanumerisch + Bindestriche, case-insensitive).  
+> Referenz: https://help.webflow.com/hc/en-us/articles/33961311094419-Classes
+
+### 3.0 Section & Base Container (Pflicht)
+
+**Pflichtklassen (kanonisch):**
+- `section` — semantischer Seitenabschnitt
+- `base-container` — zentrierter Inhaltsrahmen, einzige Stelle für max-width
+
+**Struktur-Regel (harte Pflicht):**
+- Jede `section` enthält **genau 1×** `base-container` als direktes Kind.
+- `base-container` enthält die Inhalts-Wrapper (Grid/Flex/Stacks).
+- Keine direkten Inhaltselemente als direkte Kinder von `section`.
+
+**Kompatibilität mit Pipely:** `section` darf zusätzlich Pipely-Section-Klassen tragen (z. B. `section_hero`).
+
+### 3.1 Section-Modifier (funktional, aus styles.css)
+
+| Modifier | Zweck |
+|---|---|
+| `section--hero` | Hero-Bereich: kein Padding, overflow-x hidden |
+| `section--feature` | Feature-Sections: erhöhtes vertikales Padding |
+| `section--footer` | Footer: dunkler Hintergrund, eigenes Padding |
+
+> Visuelle Varianten (hell/dunkel/Akzent) werden über separate Utility-Klassen geregelt, nicht über Section-Modifier.
+
+### 3.2 Container-Styles (aus styles.css)
+```css
+.container-base {
+  width:         100%;
+  max-width:     var(--container-max);   /* 1920px */
+  margin-left:   auto;
+  margin-right:  auto;
+  padding-left:  var(--container-padding);  /* clamp(16px, 4vw, 48px) */
+  padding-right: var(--container-padding);
+}
+```
+
+---
+
+## 4) Typografie
+
+### 4.0 Klassen-System (Base + Combo)
+
+```
+BASE                + COMBO
+.standard-h1          .white       → weiße Schrift
+.standard-h2          .muted       → gedämpfte Schrift
+.standard-h3          .white-soft  → 65 % weiß
+.standard-h4          .white-muted → 45 % weiß
+.standard-paragraph   .bold        → font-weight 700
+.standard-teaser      .semibold    → font-weight 600
+.standard-ui          (Buttons, Nav, Labels, Footer)
+.standard-small       (Meta, Copyright, Captions)
+```
+
+**Regeln:**
+- `font-family`, `font-size`, `line-height` immer per Variable
+- `font-weight` als fester Wert (Webflow-Einschränkung: Number-Variablen für font-weight nicht unterstützt)
+- `color` Standard = `--color-contrast`, Override via Combo-Klasse
+
+### 4.0.1 Heading-Mapping (Pipely → Standard)
+
+| Standard-Klasse | Pipely-Äquivalent | Anwendung |
+|---|---|---|
+| `standard-h1` | `heading-style-h1` | Einmal pro Seite, H1-Tag |
+| `standard-h2` | `heading-style-h2` | Abschnitts-Headlines |
+| `standard-h3` | `heading-style-h3` | Unterabschnitte |
+| `standard-h4` | `heading-style-h4` | Nur nach H3 |
+
+> Pflege-Regel: Wenn Pipely-Heading-Werte angepasst werden → `standard-h*` synchron aktualisieren.
+
+### 4.0.2 Fließtext-Klassen
+
+- `standard-paragraph` — normaler Absatztext in Sections
+- `standard-body` — Longform/Rich Text (Blog, Case Studies)
+
+### 4.1 Geladene Fonts
+- Montserrat (100–900) — `--font-heading`, `--font-function`
+- Inter (300) — `--font-body`
+- Host Grotesk (300/regular/500)
+
+### 4.2 Text Sizes / Weights / Styles (Pipely-Utilities)
+- Sizes: `text-xs` … `text-8xl`
+- Weights: `text-weight-light|normal|medium|semibold|bold`
+- Styles: `text-style-italic`, `text-style-allcaps`, `text-style-nowrap`, `text-style-link`, `text-style-quote`, `text-style-muted`
+
+---
+
+## 5) Farb-System
+
+### 5.1 CSS Custom Properties (aus styles.css — kanonisch)
+
+```css
+:root {
+  --color-primary:       #0891B2;
+  --color-primary-dark:  #0779A0;
+  --color-secondary:     #F8FAFC;
+  --color-contrast:      #0F172A;
+  --color-muted:         rgba(15, 23, 42, 0.55);
+  --color-white:         #ffffff;
+  --color-white-soft:    rgba(255, 255, 255, 0.65);
+  --color-white-muted:   rgba(255, 255, 255, 0.45);
+  --color-border-dark:   rgba(255, 255, 255, 0.1);
+}
+```
+
+### 5.2 Text-Color-Utilities (Pipely-Klassen)
+- `text-color-primary`
+- `text-color-secondary`
+- `text-color-tertiary`
+- `text-color-quaternary`
+- `text-color-alternate`
+
+### 5.3 Background-Utilities (Pipely-Klassen)
+- `bg-primary`, `bg-secondary`, `bg-tertiary`
+- `bg-lilac`, `bg-pink`, `bg-yellow`, `bg-soft-yellow`, `bg-blue`, `bg-green`
+
+> TODO: Hex/RGB-Werte pro Pipely-Token aus Webflow übernehmen und hier eintragen.
+
+---
+
+## 6) Buttons
+
+### 6.1 Kanonisches System: `btn--*`
+
+Grundklasse: `btn` (Webflow button element: `w-button`)
+
+| Klasse | Verwendung | Typografie-Combo |
+|---|---|---|
+| `btn btn--primary` | Haupt-CTA (Hero, CTAs) | `.standard-ui + .white + .bold` |
+| `btn btn--secondary` | Sekundärer CTA | `.standard-ui + .bold` |
+| `btn btn--outline` | Ghost/Rahmen-Button | `.standard-ui` |
+| `btn btn--ghost` | Minimaler Button ohne Rahmen | `.standard-ui` |
+| `btn btn--small` | Navbar-CTA | `.standard-ui` |
+
+### 6.2 CSS-Basis (aus styles.css)
+```css
+.btn {
+  display:          inline-flex;
+  align-items:      center;
+  justify-content:  center;
+  padding:          0.75rem 1.5rem;
+  border-radius:    var(--radius-base);
+  border:           2px solid transparent;
+  cursor:           pointer;
+  text-decoration:  none;
+  transition:       all var(--transition-base);
+  white-space:      nowrap;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  border-color:     var(--color-primary);
+}
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color:     var(--color-primary-dark);
+}
+
+.btn--outline {
+  background-color: transparent;
+  border-color:     var(--color-contrast);
+}
+.btn--outline:hover {
+  background-color: var(--color-contrast);
+  color:            var(--color-white);
+}
+```
+
+> TODO: CSS für `btn--secondary`, `btn--ghost`, `btn--small` in styles.css ergänzen.
+
+### 6.3 Migration (von Pipely)
+DEPRECATED since v2.0.0:
+- `button is-small` → `btn btn--small`
+- `button is-secondary` → `btn btn--secondary`
+- `button is-outline` → `btn btn--outline`
+- `button is-tertiary` → `btn btn--ghost`
+- `button is-icon` → TODO: Entsprechung definieren
+
+---
+
+## 7) Core Components
+
+### 7.1 Navbar (Pipely-Klassen — kanonisch)
+
+**DOM-Struktur:**
+```
+navbar w-nav
+  main-wrapper is-nav
+    padding-global is-navbar
+      container-large
+        navbar_content
+          navbar_logo-link w-nav-brand
+            navbar_logo  (SVG/img)
+          nav_wrap
+            nav_mobile w-nav-menu
+              navbar_list
+                nav_links w-nav-link        ← Haupt-Links
+                nav_dropdown w-dropdown
+                  nav_links is-dropdown w-dropdown-toggle
+                    text-block
+                    nav_link-icon w-icon-dropdown-toggle
+                  nav_link-dropdown w-dropdown-list
+                    nav_dropdown-wrap
+                      nav_dropdown-content
+                        nav_dropdown-column
+                          nav_dropdown-link w-dropdown-link
+          nav_buttons-wrap
+            btn btn--small w-button         ← CTA (Demo/Kontakt)
+          menu-button w-nav-button          ← Burger
+            nav-button_line × 3
+```
+
+**Responsive-Regel:** Collapse → Burger ab "medium" Breakpoint (≤ 991px, in Webflow eingestellt).
+
+**Typografie:**
+- `navbar_logo-link` → `.standard-ui + .bold`
+- `nav_links` → `.standard-ui`
+- Navbar-CTA → `btn btn--small` + `.standard-ui`
+
+### 7.2 Hero (Pipely-Klassen — kanonisch)
+
+**DOM-Struktur:**
+```
+section_hero  (+ section--hero für Padding-Reset)
+  img.img                          ← Hero-Hintergrundbild (eager, preload)
+  padding-global padding-section-small
+    container-large
+      hero_content
+        H1.standard-h1
+        p.standard-teaser
+        button-group
+          btn btn--primary
+          btn btn--outline
+```
+
+**Interaction:** Elemente starten mit `opacity: 0`, Einblenden via Webflow Interaction `scroll-into-view`.
+
+**Performance:** Hero-Bild bekommt `loading="eager"` + `fetchpriority="high"` als Custom Attribute.
+
+### 7.3 Footer (Pipely-Klassen)
+
+**DOM-Struktur:**
+```
+section footer text-color-quaternary  (+ section--footer)
+  padding-global padding-section-small
+    container-large
+      footer_top  (Grid: 3 Spalten)
+        Spalte 1: Kontakt (Adresse + mailto)
+        Spalte 2: Produkte (Links)
+        Spalte 3: Metanavigation (Impressum/AGB/Datenschutz)
+      footer_bottom
+        footer_icon / icon_social-media
+        p.standard-small.white-muted  ← Copyright
+```
+
+### 7.4 Forms
+TODO: In Webflow Werte für Input/Label/Button-States erfassen (Default, Hover, Focus, Error). Style-Guide enthält Client-First-Klassen.
+
+---
+
+## 8) Motion / Interactions
+
+**Wiederkehrende Muster:**
+- `scroll-into-view` / `scroll-into-img` — Trigger für Einblend-Animationen
+- Initial state häufig `opacity: 0`
+- Steuerung über Webflow Interactions via `data-w-id`
+
+**CSS-Transitions (aus styles.css):**
+- Standard: `transition: all var(--transition-base)` → `0.2s ease`
+
+> TODO (kritisch): Interactions vollständig aus Webflow exportieren und dokumentieren:
+> - Fade-in direction, duration, delay, easing
+> - Staggering (falls vorhanden)
+> - Hover transitions (Buttons/Cards)
+
+---
+
+## 9) Startseite — Section-Inventar
+
+| Section | Klasse | Beschreibung |
+|---|---|---|
+| Hero | `section_hero` | Hauptaussage, CTA, Hero-Bild/Video |
+| Social Proof | `section_social-proof` | Logos oder Testimonial-Slider |
+| About | `section_about` | Who we are / what we do |
+| The Business | `section_the-business` | 3–6 Leistungs-Kacheln, Icon + Titel + Kurztext |
+| The Business Explained | `section_the-business-explained` | Rechts-links-Elemente, ausführlichere Darstellung |
+| Principles | `section_principles` | 3 Kacheln vor Hintergrund |
+| Blog Preview | `section_blog-preview` | 3 neueste Blog-Beiträge aus CMS |
+| Sustainability | `section_sustainability` | Rechts-links-Element Nachhaltigkeit |
+| Contact Teaser | `section_contact-teaser` | Kurzer Text + Kontakt-CTA |
+| CTA Band | `section_cta-band` | Einzeiliger Banner mit CTA-Button |
+
+---
+
+## 10) Build-Regeln für neue Seiten
+
+1. **Immer:** `section` → `base-container` → content grid/flex
+2. Pipely-kompatibel nach Bedarf: `padding-global` + `padding-section-*` + `container-*` als Utilities
+3. Nur Tokens/Utilities/Components verwenden — keine freien Styles pro Element
+4. Farben ausschließlich via `text-color-*` und `bg-*` (Pipely) oder `--color-*` Variablen
+5. Typografie über `standard-h1..h4`, `standard-paragraph`, `standard-body`
+6. Buttons ausschließlich als `btn btn--*`
+7. Responsive: Breakpoints 991/767/479 beachten (Collapse, Stack, Hide-Utilities)
+8. Min-Width 360px: kein horizontaler Scroll/Overflow
+
+---
+
+## 11) Offene TODOs
+
+- [ ] Hex/RGB-Werte für alle Pipely-Farb-Utilities (`text-color-*`, `bg-*`) aus Webflow übernehmen
+- [ ] CSS für `btn--secondary`, `btn--ghost`, `btn--small` in styles.css ergänzen
+- [ ] `btn--icon` definieren (Entsprechung zu altem `button is-icon`)
+- [ ] Standard-Typografie: Werte für `standard-h1..h4`, `standard-paragraph`, `standard-body` 1:1 aus Pipely übertragen
+- [ ] Component Specs pro Breakpoint (Navbar, Hero, Cards, Footer, Form) dokumentieren
+- [ ] Interaction Library (Namen + Parameter) vollständig aus Webflow exportieren
+- [ ] Form-States dokumentieren (Default, Hover, Focus, Error)
+- [ ] Optional: Figma als SSoT verlinken (falls vorhanden)
