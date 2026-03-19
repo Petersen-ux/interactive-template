@@ -5,9 +5,16 @@ Version: 2.0.0
 Quelle: Webflow Template "Pipely" + Style Guide-Seite (pipely.webflow.io/template/style-guide)
 
 ---
+> **Dokumenten-Hierarchie:** Diese Datei ist Rang 4 (niedrigste Autorität).
+> Bei Widersprüchen gilt: CLAUDE.md > projekt-basis.md > styles.css > design.md.
+> Wenn styles.css einen anderen Klassennamen oder Wert enthält als hier beschrieben,
+> gilt styles.css — diese Datei muss dann angepasst werden.
 
 ## Changelog
-
+> **Dokumenten-Hierarchie:** Diese Datei ist Rang 4 (niedrigste Autorität).
+> Bei Widersprüchen gilt: CLAUDE.md > projekt-basis.md > styles.css > design.md.
+> Wenn styles.css einen anderen Klassennamen oder Wert enthält als hier beschrieben,
+> gilt styles.css — diese Datei muss dann angepasst werden.
 ### v2.0.0 — 2026-03-06
 - **Changed:** Button-System von `button is-*` auf `btn--*` umgestellt (Breaking Change)
 - **Changed:** Section-Modifier bleiben funktional (`section--hero`, `section--feature`, `section--footer`) gemäß styles.css
