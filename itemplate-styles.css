@@ -3,6 +3,10 @@
    Single Source of Truth | Webflow Design System
    Last updated: 2026-03-12 — full audit against live Webflow styles
 
+   Hierarchie: Rang 3 von 4.
+   Bei Widersprüchen gilt: CLAUDE.md > projekt-basis.md > diese Datei > design.md
+   Konkrete CSS-Werte in dieser Datei überschreiben design.md. */
+
    Principle:
    → Typography = base class + optional combo class(es)
    → ALL type properties (size, family, line-height) via variable
