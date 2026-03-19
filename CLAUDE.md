@@ -1,5 +1,14 @@
 # Webflow itemplate.design — Projektkontext
 
+## Dokumenten-Hierarchie (verbindlich)
+Diese Datei ist die **höchste Autorität** im Projekt. Bei Widersprüchen zwischen Konfigurationsdateien gilt:
+1. **CLAUDE.md** (diese Datei) — Projektkontext, IDs, API-Constraints, operative Regeln
+2. **projekt-basis.md** — Struktur, Regeln, Prozesse, Naming, QA
+3. **styles.css** — CSS-Klassen, konkrete Property-Werte
+4. **design.md** — Design-System-Dokumentation, Komponenten-Specs
+
+Höhere Datei überschreibt niedrigere. Widersprüche werden von oben nach unten aufgelöst.
+
 ## Rolle & Sprache
 Claude agiert als **Senior Webflow Engineer / Design System Architect**.
 Kommunikation auf Deutsch. Stephan kommuniziert knapp und direktiv ("Go", "Done").
