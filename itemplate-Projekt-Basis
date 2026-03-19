@@ -3,6 +3,27 @@
 Diese Markdown-Datei definiert **verbindliche Projektregeln** für die Erstellung einer **voll responsiven** Webflow-Webseite mit **Claude Code** als KI-Umsetzer (Tooling/MCP optional).  
 Ziel: **konsistente Struktur, saubere Responsivität, klare Benennung, wiederholbare Qualitätssicherung**.
 
+---
+
+## Dokumenten-Hierarchie (verbindlich)
+
+Dieses Projekt wird durch vier Konfigurationsdateien gesteuert. Bei Widersprüchen zwischen Dateien gilt die **höher eingestufte Datei**. Die niedrigere Datei muss angepasst werden — nie umgekehrt.
+
+| Rang | Datei | Zuständigkeit | Überschreibt |
+|---|---|---|---|
+| **1 (höchste)** | `CLAUDE.md` | Projektkontext, IDs, API-Constraints, operative Kurzreferenz für Claude | Alle anderen |
+| **2** | `projekt-basis.md` | Struktur, Regeln, Prozesse, Naming, Responsive, QA | design.md, styles.css |
+| **3** | `styles.css` | CSS-Klassen, konkrete Property-Werte, Design Tokens als Code | design.md |
+| **4** | `design.md` | Design-System-Dokumentation, Komponenten-Specs, Varianten | — |
+
+**Konfliktauflösung:**
+- Wenn `CLAUDE.md` einen Klassennamen oder eine Regel definiert, gilt dieser — auch wenn `styles.css` oder `design.md` etwas anderes sagen.
+- Wenn `projekt-basis.md` ein Strukturprinzip festlegt (z.B. `section → base-container`), darf `design.md` kein abweichendes Pattern definieren.
+- Wenn `styles.css` einen konkreten CSS-Wert enthält (z.B. `btn-primary`), überschreibt das die Beschreibung in `design.md` (z.B. `btn btn--primary`).
+- `design.md` ist die niedrigste Autorität und beschreibt das Soll-Design — bei Abweichungen zur Implementierung in `styles.css` gilt die Implementierung.
+
+> **Pflicht:** Wird ein Widerspruch entdeckt, muss dieser dokumentiert und in der nächsten Bearbeitung aufgelöst werden — immer von oben nach unten (höhere Datei gewinnt).
+
 
 ## 1) Rollen- & Arbeitsmodus
 
@@ -15,10 +36,10 @@ Ziel: **konsistente Struktur, saubere Responsivität, klare Benennung, wiederhol
 **Umsetzungsmodus**
 - **Wenn Webflow über Connector/MCP verfügbar ist:** Umsetzung direkt im Webflow Designer (Elemente, Klassen, Styles, Assets).
 - **Wenn keine Tool-/Connector-Aktionen möglich sind:** exakte **Schritt-für-Schritt-Anleitung** für den Webflow Designer liefern (identische Struktur, identische Klassen, identische Style-Werte).
-- **Wenn ein Element durch den User zu löschen ist, bitte die klasse "delete+Zahl" verleihen und den User auffordern, delete-1, delete-2 etc zu löschen
-> **Code:**: Nie Code (Javascript oder andere) in irgendeiner Form in die Webflow-Seite einbinden, ohne den User zu warnen UND immer zu dokumentieren (inline)! 
+- **Wenn ein Element durch den User zu löschen ist:** die Klasse `delete-1`, `delete-2` etc. verleihen und den User auffordern, diese Elemente zu löschen.
 
 ---
+
 **Grundsatz: Webflow-Bordmittel vor Custom Code (Pflicht)**
 
 Alle Designs, Elemente und Seitenfunktionen werden **grundsätzlich mit nativen Webflow-Funktionen** umgesetzt (Styles, Interactions, CMS, Variables, Conditions, etc.). Custom Code (Embeds, Custom Attributes mit JS, externe Bibliotheken, Inline-Scripts) ist die **letzte Option**, nicht die erste.
@@ -44,16 +65,18 @@ Begründung:
 ## 2) Projektziel & Seitenumfang
 
 **Jede Seite, die erstellt wird, hat**:
-1) **Navbar** (genau eine, nie mehr oder weniger: Desktop-Navigation + Mobile-Menü/Burgerm, Component "Navbar") + **Hero** inkl. **computergeneriertem Headerbild** und **Standard-Headline** für ein Standard-Business
-2) **Hero-Section** (genau eine, nie mehr oder weniger: Mit H1 und Teaser )
-3) **Text-Bild-Elemente** (Als Basis für Inhaltserstellung)
-4) **Footer** (genau einer, nie mehr oder weniger: Kontakt, Produktlinks, Metanavigation)
+1) **Navbar** (genau eine: Desktop-Navigation + Mobile-Menü/Burger, Component "Navbar") + **Hero** inkl. **computergeneriertem Headerbild** und **Standard-Headline**
+2) **Hero-Section** (genau eine: mit H1 und Teaser)
+3) **Text-Bild-Elemente** (als Basis für Inhaltserstellung)
+4) **Footer** (genau einer: Kontakt, Produktlinks, Metanavigation)
 
 Hinweis: Weitere Content-Seiten können später ergänzt werden; sie sind **nicht** Bestandteil dieses Basistemplates.
 
 **Strukturelles Grundprinzip (über die gesamte Seite)**
-- **SECTION → BASIS-CONTAINER → INHALTSELEMENT(E)**  
-  (Keine Ausnahmen.)
+```
+SECTION → BASE-CONTAINER → INHALTSELEMENT(E)
+```
+Keine Ausnahmen. Jede `section` enthält genau **1× `base-container`** als direktes Kind.
 
 ---
 
@@ -66,11 +89,11 @@ Hinweis: Weitere Content-Seiten können später ergänzt werden; sie sind **nich
 
 ### 3.2 Breiten-System (Container-Standard)
 - **Page Wrapper**: `width: 100%`
-- **Basis-Container** (zentriert):
-  - `max-width: 1920px`
+- **`base-container`** (zentriert):
+  - `width: 95%`
+  - `max-width: 1920px` (Variable `--container-max`)
   - `margin-left/right: auto`
-  - Seiten-Padding:
-    - `padding-left/right: clamp(16px, 4vw, 48px)`
+  - `padding-left/right: 0` (Seitenpadding wird über `padding-global` gesteuert, nicht über den Container selbst)
 
 ### 3.3 Viewport-Grenzen (Pflicht)
 - **Max. Inhaltsbreite:** 1920px (zentriert)
@@ -117,19 +140,27 @@ Hinweis: Weitere Content-Seiten können später ergänzt werden; sie sind **nich
 
 ## 6) Klassen- & Naming-Konvention (Pflicht)
 
-Verwende eine **klare, wiederholbare** Konvention (BEM-ähnlich oder eindeutig strukturiert), z. B.:
-
-- `section`, `section--hero`, `section--feature`, `section--footer`
-- `container-base`
-- `header`, `nav`, `hero`, `hero__content`, `hero__headline`, `hero__subline`
-- `feature`, `feature__grid`, `feature__text`, `feature__media`
-- `footer`, `footer__grid`
-
-> Hinweis: Webflow empfiehlt alphanumerisch + Bindestriche (a-z, 0-9, -); Klassen sind case-insensitive. Kanonische Namen sind **kebab-case**.
-
-**Regeln**
-- Keine „mystery classes" (z. B. `Div Block 23` als finaler Zustand).
+### 6.1 Grundregeln
+- **Kanonisch: kebab-case.** Webflow ist case-insensitive bei Klassennamen.
+- Keine Leerzeichen, keine PascalCase-Klassen als Neuzugang.
+- Keine „Mystery Classes" (z. B. `Div Block 23` als finaler Zustand).
 - Wiederverwendbare Utility-Patterns nur, wenn sauber dokumentiert.
+
+### 6.2 Naming-Muster
+
+| Kategorie | Muster | Beispiele |
+|---|---|---|
+| Sections | `section` + semantischer Name | `section`, `section-hero`, `section-team`, `section-footer` |
+| Container | `base-container` | `base-container` |
+| Typografie-Base | `standard-[stufe]` | `standard-h1`, `standard-paragraph`, `standard-ui` |
+| Typografie-Combo | Einwort-Modifier | `.white`, `.muted`, `.bold`, `.semibold` |
+| Buttons | `btn-[variante]` | `btn-primary`, `nav-btn-primary`, `hero-btn-primary` |
+| Components | `[component]_[teil]` | `team_grid`, `team_item`, `footer_bottom` |
+| Utilities | Beschreibend | `padding-global`, `text-size-small`, `hide-tablet` |
+| Layout-Modifier | `is-[eigenschaft]` | `is-reversed`, `is-large`, `is-gray` |
+
+### 6.3 Webflow-Hinweis
+> Webflow empfiehlt alphanumerisch + Bindestriche (a-z, 0-9, -); Klassen sind case-insensitive. Ref: https://help.webflow.com/hc/en-us/articles/33961311094419-Classes
 
 ---
 
@@ -139,7 +170,7 @@ Verwende eine **klare, wiederholbare** Konvention (BEM-ähnlich oder eindeutig s
 - Sinnvolle Reihenfolge: H1 → H2 → H3, keine Sprünge ohne Grund.
 - **Alt-Texte** für alle bedeutungstragenden Bilder/Illustrationen.
 - **Kontrast**: Text muss gut lesbar sein (insb. auf Hero-Hintergrund).
-- Interaktionsziele (Buttons/Links) ausreichend groß für Mobile.
+- Interaktionsziele (Buttons/Links) ausreichend groß für Mobile (min. 44 × 44 px).
 
 ---
 
@@ -178,7 +209,7 @@ Verwende eine **klare, wiederholbare** Konvention (BEM-ähnlich oder eindeutig s
 ### 8.3 Feature-Blöcke (Pflicht)
 
 - 3 Sections, alternierendes Desktop-Layout (Text links/Bild rechts und umgekehrt)
-- Mobile: immer **stapeln** (z. B. Bild oben, Text darunter) – konsistent über alle Blöcke.
+- Mobile: immer **stapeln** (Bild oben, Text darunter) – konsistent über alle Blöcke.
 
 ### 8.4 Footer (Pflicht)
 
@@ -222,8 +253,8 @@ Verwende eine **klare, wiederholbare** Konvention (BEM-ähnlich oder eindeutig s
    - Body, Typography, Links
    - Buttons (Navbar-CTAs sind Pflicht → Button-Styles sind Pflicht)
 4) Seite bauen im Muster:
-   - `SECTION` (`section` + Modifier)  
-     → `BASIS-CONTAINER` (`container-base`)  
+   - `SECTION`
+     → `BASE-CONTAINER` (`base-container`)
      → Inhalt (Grid/Flex Wrapper etc.)
 5) Header & Navigation:
    - Navbar mit Desktop-Navigation + Mobile Menu Button (Hamburger)
@@ -355,17 +386,34 @@ Jede Seite folgt ohne Ausnahme einer dreigliedrigen Hierarchie:
 
 ```
 SEITE
-   SECTION          ← semantischer Seitenabschnitt
-      CONTAINER     ← zentrierter Inhaltsrahmen (max-width)
+   SECTION            ← semantischer Seitenabschnitt
+      BASE-CONTAINER  ← zentrierter Inhaltsrahmen (max-width)
          INHALT (Grid, Flex, Stacks ...)
 ```
 
 **Warum diese Hierarchie?**
 - Die Section definiert den inhaltlichen Kontext eines Bereichs (Hero, Features, Kontakt ...).
-- Der Container stellt sicher, dass Inhalte nie aus dem Raster brechen – einzige Stelle für max-width und Auto-Margin.
+- Der `base-container` stellt sicher, dass Inhalte nie aus dem Raster brechen – einzige Stelle für max-width und Auto-Margin.
 - Inhalts-Wrapper darunter können frei grid- oder flex-basiert sein, ohne die übergeordneten Ebenen zu beeinflussen.
-- Direkte Kinder einer Section sind immer und ausschließlich der Container – nie Inhaltselemente.
+- Direkte Kinder einer Section sind immer und ausschließlich der `base-container` – nie Inhaltselemente.
 - Kein „Div Block 23" als Finalzustand. Jedes Element bekommt einen sprechenden Namen.
+
+**CSS-Definition von `base-container` (aus styles.css):**
+```css
+.base-container {
+  position: relative;
+  display: flex;
+  width: 95%;
+  max-width: var(--container-max);   /* 1920px */
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 0;
+  padding-left: 0;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  font-family: var(--font-body);
+}
+```
 
 ---
 
@@ -378,8 +426,8 @@ Webflow speichert Klassen global. Unkontrollierte Benennung führt innerhalb wen
 
 | Prinzip | Bedeutung |
 |---|---|
-| Kleinbuchstaben + Bindestrich | Alle Namen: wort-wort-wort. Keine Großbuchstaben, keine Leerzeichen, keine Unterstriche. |
-| Modifier | Varianten durch einfachen Bindestrich: `block--variante` |
+| Kleinbuchstaben + Bindestrich | Alle Namen: `wort-wort-wort`. Keine Großbuchstaben, keine Leerzeichen, keine Unterstriche. |
+| Modifier | Varianten durch einfachen Bindestrich: `btn-secondary`, `section-hero` |
 | Zustandsklassen | Interaktive Zustände als kurze Hilfsklasse: `is-open`, `is-active` |
 
 - Webflow behandelt Klassennamen als case-insensitive. „Hero" und „hero" sind dieselbe Klasse – Kleinschreibung vermeidet Kollisionen.
@@ -389,8 +437,8 @@ Webflow speichert Klassen global. Unkontrollierte Benennung führt innerhalb wen
 | Ebene | Was gehört hier rein? | Beispiele |
 |---|---|---|
 | 1 – Design Tokens | Alle Werte: Farben, Schriftgrößen, Abstände – ausschließlich als Webflow-Variablen | Primärfarbe, Heading-Größe, Karten-Radius |
-| 2 – Utilities | Einzweck-Hilfsklassen: Sichtbarkeit, Container-Breiten | Verstecken auf Mobile, max-width-Begrenzungen |
-| 3 – Components | Wiederverwendbare UI-Einheiten mit eigenem DOM-Vertrag | Navbar, Button, Karte, Formular, Footer |
+| 2 – Utilities | Einzweck-Hilfsklassen: Sichtbarkeit, Container-Breiten, Spacing | `padding-global`, `hide-tablet`, `text-size-small` |
+| 3 – Components | Wiederverwendbare UI-Einheiten mit eigenem DOM-Vertrag | Navbar, Buttons, Karten, Formulare, Footer |
 | 4 – Patterns | Kompositionen aus Components für typische Seitenabschnitte | Hero-Pattern, Feature-Reihe, Team-Grid |
 | 5 – Pages | Seiten sind nur Aneinanderreihungen von Patterns | Startseite, Produktdetail, News-Übersicht |
 
@@ -405,14 +453,14 @@ Webflow speichert Klassen global. Unkontrollierte Benennung führt innerhalb wen
 ```
 <body>
    Äußerer Wrapper (width: 100%, verhindert horizontalen Overflow)
-   <navbar>  Navigation
-   <header>  Seiten-Header (Hero-Bereich)
+   <navbar>   Navigation
+   <header>   Seiten-Header (Hero-Bereich)
    <section>  Abschnitt 1 (z. B. Hero)
-      Container → Inhalt
+      base-container → Inhalt
    <section>  Abschnitt 2 (z. B. Features)
-      Container → Inhalt
+      base-container → Inhalt
    <footer>
-      Container → Inhalt
+      base-container → Inhalt
 </body>
 ```
 
@@ -541,7 +589,7 @@ NAVBAR
 ### G.1 Aufbau jeder Komponente
 - Jede Komponente ist eine eigenständige Webflow-Symbol-Gruppe oder Section.
 - Alle Texte über CMS-Felder oder Webflow Symbols mit Overrides befüllbar.
-- Varianten über Modifier-Klassen (`block--variante`), nicht über separate Symbole.
+- Varianten über Modifier-Klassen, nicht über separate Symbole.
 
 ### G.2 Startseite – Sections
 
@@ -564,15 +612,15 @@ NAVBAR
 |---|---|
 | `navbar` | Logo, Nav-Links, CTA, Burger |
 | `footer` | Adresse, Links, Social, Copyright |
-| `card--blog` | Featured Image, Datum, Titel, Excerpt, CTA-Link |
-| `card--service` | Icon, Titel, Kurztext |
-| `card--team` | Portrait, Name, Rolle, LinkedIn |
-| `form--contact` | Name, E-Mail, Nachricht, Consent, Submit |
+| `card-blog` | Featured Image, Datum, Titel, Excerpt, CTA-Link |
+| `card-service` | Icon, Titel, Kurztext |
+| `card-team` | Portrait, Name, Rolle, LinkedIn |
+| `form-contact` | Name, E-Mail, Nachricht, Consent, Submit |
 
 ### G.4 Varianten
-- Buttons: `btn--primary`, `btn--secondary`, `btn--ghost`.
-- Karten: `card--highlight` (dunkler Hintergrund) vs. `card--default`.
-- Sections: `section--dark`, `section--light`, `section--accent`.
+- Buttons: `btn-primary`, `nav-btn-primary`, `nav-btn-secondary`, `hero-btn-primary`, `animated-btn-primary`
+- Karten: `card-highlight` (dunkler Hintergrund) vs. `card-default`
+- Sections: `section-dark`, `section-light`, `section-accent`
 
 ---
 
@@ -669,7 +717,7 @@ Alternative         :  https://www.domain.de/en/
 ## L. ABNAHME-CHECKLISTE
 
 ### L.1 Struktur
-- [ ] section → Container → Inhalt überall eingehalten
+- [ ] `section` → `base-container` → Inhalt überall eingehalten
 - [ ] Kein Element ohne sprechenden Namen
 - [ ] H1 genau einmal pro Seite
 - [ ] Heading-Hierarchie korrekt, keine Sprünge
@@ -713,4 +761,4 @@ Alternative         :  https://www.domain.de/en/
 ---
 
 **Ende des Standards**  
-Dieses Dokument ist als „Single Source of Truth" gedacht: Änderungen hier gelten für alle Projekte, die darauf basieren.
+Dieses Dokument ist **Rang 2** in der Dokumenten-Hierarchie (siehe oben). Bei Widersprüchen gilt `CLAUDE.md` (Rang 1). Dieses Dokument überschreibt `styles.css` (Rang 3) und `design.md` (Rang 4).
